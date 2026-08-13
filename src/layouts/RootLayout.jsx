@@ -8,7 +8,7 @@ const Root = () => {
   return (
     <div className="w-full h-screen">
       <div className="flex w-full h-full bg-gray-50">
-        <div className="w-1/5 h-full">
+        <div className="w-100 h-full">
           <Sidebar></Sidebar>
         </div>
         <div className="w-full h-full">
