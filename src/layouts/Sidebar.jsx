@@ -7,41 +7,70 @@ const Sidebar = () => {
   const Menus = (
     <>
       <NavLink
-        to={"/"}
+        to="/"
         end
-        className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
+        className={({ isActive }) =>
+          `group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+            isActive
+              ? "bg-gray-900 text-white"
+              : "text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-gray-900"
+          }`
+        }
       >
-        <div className="flex items-center gap-2">
-          <FiGrid size={18} /> Dashboard
-        </div>
+        <FiGrid size={18} className="shrink-0" />
+        <span>Dashboard</span>
       </NavLink>
+
       <NavLink
-        to={"/todos"}
+        to="/todos"
         end
-        className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
+        className={({ isActive }) =>
+          `group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+            isActive
+              ? "bg-gray-900 text-white"
+              : "text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-gray-900"
+          }`
+        }
       >
-        <div className="flex items-center gap-2">
-          <FiClipboard /> Todos
-        </div>
+        <FiClipboard size={18} className="shrink-0" />
+        <span>Todos</span>
       </NavLink>
+
       <NavLink
-        to={"/todos/create"}
+        to="/todos/create"
         end
-        className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
+        className={({ isActive }) =>
+          `group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+            isActive
+              ? "bg-gray-900 text-white"
+              : "text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-gray-900"
+          }`
+        }
       >
-        <div className="flex items-center gap-2">
-          <FaPlus className="text-xs" />
-          Create Todo
-        </div>
+        <FaPlus size={14} className="shrink-0" />
+        <span>Create Todo</span>
       </NavLink>
+
+      {/* Others */}
+      <div className="my-5 border-t border-gray-100" />
+
+      <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+        Others
+      </p>
+
       <NavLink
-        to={"/settings"}
+        to="/settings"
         end
-        className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
+        className={({ isActive }) =>
+          `group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+            isActive
+              ? "bg-gray-900 text-white"
+              : "text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-gray-900"
+          }`
+        }
       >
-        <div className="flex items-center gap-2">
-          <FiSliders /> Settings
-        </div>
+        <FiSliders size={18} className="shrink-0" />
+        <span>Settings</span>
       </NavLink>
     </>
   );

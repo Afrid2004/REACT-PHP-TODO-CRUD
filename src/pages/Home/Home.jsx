@@ -11,10 +11,11 @@ import {
 } from "react-icons/fa";
 import { FiActivity, FiAlertCircle } from "react-icons/fi";
 import { Link, useNavigate } from "react-router";
+import DashboardSkeleton from "../../components/Loadings/DahboardSkeleton";
 
 const Home = () => {
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     summary: {
       total: 0,
@@ -26,6 +27,7 @@ const Home = () => {
   });
 
   const fetchDashboard = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_PHP_API}/todos/dashboard/`,
@@ -36,6 +38,8 @@ const Home = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,6 +70,10 @@ const Home = () => {
 
     return "bg-gray-100 text-gray-600";
   };
+
+  if (loading) {
+    return <DashboardSkeleton></DashboardSkeleton>;
+  }
 
   return (
     <div className="w-full">
