@@ -1,4 +1,5 @@
 import React from "react";
+import { FaPlus } from "react-icons/fa";
 import { FiClipboard, FiGrid, FiSliders } from "react-icons/fi";
 import { Link, NavLink } from "react-router";
 
@@ -19,6 +20,15 @@ const Sidebar = () => {
       >
         <div className="flex items-center gap-2">
           <FiClipboard /> Todos
+        </div>
+      </NavLink>
+      <NavLink
+        to={"/todos/create"}
+        className="[&.active]:border-l-4 border-black px-4 py-2 bg-black/7 hover:bg-black/10 duration-75"
+      >
+        <div className="flex items-center gap-2">
+          <FaPlus className="text-xs" />
+          Create Todo
         </div>
       </NavLink>
       <NavLink

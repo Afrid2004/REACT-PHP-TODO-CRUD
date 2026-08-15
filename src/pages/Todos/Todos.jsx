@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import TodosTable from "../../components/TodosTable";
+import TodosCard from "../../components/TodosCard";
+import { FaPlus } from "react-icons/fa";
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
@@ -10,21 +11,36 @@ const Todos = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-        const res = await axios.get(`${todosApi}/todos/`);
-        setTodos(res.data.data);
+      const res = await axios.get(`${todosApi}/todos/`);
+      setTodos(res.data.data);
     } catch (error) {
-        console.log(error)
-    }finally{
-        setLoading(false);
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
     <div>
-      <TodosTable loading={loading} todos={todos}></TodosTable>
+      <div className="mb-5 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-semibold text-gray-800">My Tasks</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Manage and track your tasks.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="flex items-center gap-2 rounded-sm bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 active:bg-gray-900 cursor-pointer"
+        >
+          <FaPlus className="text-xs" />
+          Create New
+        </button>
+      </div>
+      <TodosCard loading={loading} todos={todos}></TodosCard>
     </div>
   );
 };
