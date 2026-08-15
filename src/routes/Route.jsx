@@ -4,6 +4,7 @@ import Home from "../pages/Home/Home";
 import Todos from "../pages/Todos/Todos";
 import CreateTodo from "../pages/Todos/CreateTodo";
 import ShowDetails from "../pages/Todos/ShowDetails";
+import EditTodo from "../pages/Todos/EditTodo";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "/todos/details/:id",
         element: <ShowDetails></ShowDetails>,
+      },
+      {
+        path: "/todos/edit/:id",
+        element: <EditTodo></EditTodo>,
       },
     ],
   },

@@ -1,19 +1,58 @@
-import React from "react";
 import { FaEdit, FaTrash, FaClock } from "react-icons/fa";
 import { formatDateTime } from "../lib/formateDate";
-import { replace, useNavigate } from "react-router";
+import { Link, replace, useNavigate } from "react-router";
+import axios from "axios";
+import React from "react";
+import Swal from "sweetalert2";
 
-const TodosCard = ({ todos }) => {
-
+const TodosCard = ({ todos, setTodos }) => {
   const navigate = useNavigate();
-
+  console.log(todos);
   const handleDetails = (id) => {
-    return navigate(`/todos/details/${id}`, {replace: true});
-  }
+    return navigate(`/todos/details/${id}`, { replace: true });
+  };
 
+  const handleDelete = async (id) => {
+    await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#101828",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed)
+        try {
+          const res = await axios.delete(
+            `${import.meta.env.VITE_PHP_API}/todos/delete?id=${id}`,
+          );
+          if (res.data.success) {
+            await Swal.fire({
+              title: "Success!",
+              text: res.data?.message,
+              icon: "success",
+            });
+            setTodos((prev) => prev.filter((item) => item.id !== id));
+          } else {
+            await Swal.fire({
+              title: "Error!",
+              text: res.data?.message,
+              icon: "error",
+            });
+          }
+        } catch (error) {
+          await Swal.fire({
+            title: "Failed!",
+            text: error.response?.data?.message || "Something went wrong",
+            icon: "error",
+          });
+        }
+    });
+  };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
       {todos?.map((todo) => {
         const priorityColor =
           todo.priority === "high"
@@ -33,7 +72,7 @@ const TodosCard = ({ todos }) => {
           <div
             key={todo.id}
             onClick={() => handleDetails(todo.id)}
-            className="flex gap-4 rounded-lg border border-gray-200 bg-white hover:bg-gray-50/20 duration-75 p-4 hover:border-gray-300"
+            className="flex gap-4 cursor-pointer rounded-lg border border-gray-200 hover:-translate-y-1 bg-white duration-200 p-4"
           >
             {/* Priority */}
             <div className="pt-1">
@@ -45,12 +84,9 @@ const TodosCard = ({ todos }) => {
             {/* Todo Content */}
             <div className="min-w-0 flex-1">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                
                 {/* Title & Description */}
                 <div className="min-w-0">
-                  <h3 className="font-semibold text-gray-800">
-                    {todo.title}
-                  </h3>
+                  <h3 className="font-semibold text-gray-800">{todo.title}</h3>
 
                   <p className="mt-1 text-sm text-gray-500 line-clamp-1">
                     {todo.description || "No description"}
@@ -58,18 +94,22 @@ const TodosCard = ({ todos }) => {
                 </div>
 
                 {/* Actions */}
-                <div onClick={(e) => e.stopPropagation()} className="flex shrink-0 gap-1">
-                  <button
-                    type="button"
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex shrink-0 gap-1"
+                >
+                  <Link
+                    to={`/todos/edit/${todo.id}`}
                     className="rounded-md p-2 text-gray-500 hover:bg-blue-50 hover:text-blue-600"
                     title="Edit"
                   >
                     <FaEdit />
-                  </button>
+                  </Link>
 
                   <button
+                    onClick={() => handleDelete(todo.id)}
                     type="button"
-                    className="rounded-md p-2 text-gray-500 hover:bg-red-50 hover:text-red-600"
+                    className="rounded-md cursor-pointer p-2 text-gray-500 hover:bg-red-50 hover:text-red-600"
                     title="Delete"
                   >
                     <FaTrash />

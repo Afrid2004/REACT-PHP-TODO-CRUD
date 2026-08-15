@@ -8,7 +8,7 @@ const Sidebar = () => {
     <>
       <NavLink
         to={"/"}
-        className=" [&.active]:border-l-4 border-black px-4 py-2 bg-black/7 hover:bg-black/10 duration-75"
+        className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
       >
         <div className="flex items-center gap-2">
           <FiGrid size={18} /> Dashboard
@@ -16,7 +16,7 @@ const Sidebar = () => {
       </NavLink>
       <NavLink
         to={"/todos"}
-        className="[&.active]:border-l-4 border-black px-4 py-2 bg-black/7 hover:bg-black/10 duration-75"
+        className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
       >
         <div className="flex items-center gap-2">
           <FiClipboard /> Todos
@@ -24,7 +24,7 @@ const Sidebar = () => {
       </NavLink>
       <NavLink
         to={"/todos/create"}
-        className="[&.active]:border-l-4 border-black px-4 py-2 bg-black/7 hover:bg-black/10 duration-75"
+        className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
       >
         <div className="flex items-center gap-2">
           <FaPlus className="text-xs" />
@@ -33,7 +33,7 @@ const Sidebar = () => {
       </NavLink>
       <NavLink
         to={"/settings"}
-        className="[&.active]:border-l-4 border-black px-4 py-2 bg-black/7 hover:bg-black/10 duration-75"
+        className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
       >
         <div className="flex items-center gap-2">
           <FiSliders /> Settings

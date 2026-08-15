@@ -1,13 +1,14 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 
-const CreateTodo = () => {
+const EditTodo = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const [todos, setTodos] = useState({
     title: "",
     description: "",
@@ -23,6 +24,35 @@ const CreateTodo = () => {
       [name]: value,
     });
   };
+
+  const fetchTodo = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_PHP_API}/todos/find/?id=${id}`,
+      );
+      if (res.data.success) {
+        const data = res.data?.data;
+        setTodos({
+          title: data.title ?? "",
+          description: data.description ?? "",
+          priority: data.priority ?? "",
+          status: data.status ?? "",
+          due_time: data.due_time
+            ? data.due_time.replace(" ", "T").slice(0, 16)
+            : "",
+        });
+        console.log(res.data);
+      } else {
+        console.log(res.data.message);
+      }
+    } catch (error) {
+      console.log(error.response?.data?.message || "Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    fetchTodo();
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +86,7 @@ const CreateTodo = () => {
       return;
     }
 
-    const newTodo = {
+    const updatedTodo = {
       title: todos.title.trim(),
       description: todos.description.trim(),
       priority: todos.priority,
@@ -66,9 +96,9 @@ const CreateTodo = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_PHP_API}/todos/create`,
-        newTodo,
+      const res = await axios.patch(
+        `${import.meta.env.VITE_PHP_API}/todos/update?id=${id}`,
+        updatedTodo,
       );
       if (res.data.success) {
         await Swal.fire({
@@ -76,7 +106,7 @@ const CreateTodo = () => {
           text: res.data?.message,
           icon: "success",
         });
-        navigate("/todos", { replace: true });
+        navigate(`/todos/details/${id}`);
       } else {
         console.log(res.data);
         setError(res.data.message);
@@ -97,12 +127,10 @@ const CreateTodo = () => {
     <div className="w-full">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Create New Task
-          </h1>
+          <h1 className="text-2xl font-semibold text-gray-800">Update Task</h1>
 
           <p className="mt-1 text-sm text-gray-500">
-            Add a new task and keep track of your work.
+            Update your task details and keep your work organized.
           </p>
         </div>
         <Link
@@ -136,6 +164,7 @@ const CreateTodo = () => {
                 name="title"
                 id="title"
                 onChange={handleChange}
+                value={todos.title ?? ""}
                 placeholder="Enter task title"
                 className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
               />
@@ -152,6 +181,7 @@ const CreateTodo = () => {
               <textarea
                 rows="5"
                 onChange={handleChange}
+                value={todos.description ?? ""}
                 name="description"
                 id="desc"
                 placeholder="Write a short description..."
@@ -171,10 +201,11 @@ const CreateTodo = () => {
                 <select
                   name="priority"
                   id="priority"
+                  value={todos.priority}
                   onChange={handleChange}
                   className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
                 >
-                  <option value="" selected disabled>
+                  <option value="" disabled>
                     Select priority
                   </option>
                   <option value="low">Low</option>
@@ -195,9 +226,10 @@ const CreateTodo = () => {
                   name="status"
                   id="status"
                   onChange={handleChange}
+                  value={todos.status}
                   className="w-full rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
                 >
-                  <option value="" selected disabled>
+                  <option value="" disabled>
                     Select status
                   </option>
                   <option value="pending">Pending</option>
@@ -219,6 +251,7 @@ const CreateTodo = () => {
                 name="due_time"
                 id="due_time"
                 onChange={handleChange}
+                value={todos.due_time ?? ""}
                 type="datetime-local"
                 className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
               />
@@ -237,7 +270,7 @@ const CreateTodo = () => {
               type="submit"
               className="rounded-sm cursor-pointer bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
             >
-              Create Task
+              Update Task
             </button>
           </div>
         </form>
@@ -246,4 +279,4 @@ const CreateTodo = () => {
   );
 };
 
-export default CreateTodo;
+export default EditTodo;

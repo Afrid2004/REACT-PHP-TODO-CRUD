@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft, FaCalendarAlt, FaClock } from "react-icons/fa";
+import { FaArrowLeft, FaCalendarAlt, FaClock, FaPlus } from "react-icons/fa";
+import { FiEdit } from "react-icons/fi";
 import { Link, useParams } from "react-router";
 
 const ShowDetails = () => {
@@ -9,27 +10,24 @@ const ShowDetails = () => {
   const [todo, setTodo] = useState(null);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    console.log("Route param id:", id);
-    const fetchTodo = async () => {
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_PHP_API}/todos/find/?id=${id}`,
-        );
+  const fetchTodo = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_PHP_API}/todos/find/?id=${id}`,
+      );
 
-        if (res.data.success) {
-          setTodo(res.data.data);
-          console.log(res.data)
-        } else {
-          setError(res.data.message);
-        }
-      } catch (error) {
-        setError(
-          error.response?.data?.message || "Something went wrong"
-        );
+      if (res.data.success) {
+        setTodo(res.data.data);
+        console.log(res.data);
+      } else {
+        setError(res.data.message);
       }
-    };
+    } catch (error) {
+      setError(error.response?.data?.message || "Something went wrong");
+    }
+  };
 
+  useEffect(() => {
     fetchTodo();
   }, [id]);
 
@@ -54,22 +52,29 @@ const ShowDetails = () => {
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Task Details
-          </h1>
+          <h1 className="text-2xl font-semibold text-gray-800">Task Details</h1>
 
           <p className="mt-1 text-sm text-gray-500">
             View the details and current status of your task.
           </p>
         </div>
 
-        <Link
-          to="/todos"
-          className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
-        >
-          <FaArrowLeft className="text-xs" />
-          Back to Tasks
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            to="/todos"
+            className="flex items-center gap-2 rounded-sm border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+          >
+            <FaArrowLeft className="text-xs" />
+            Back to Tasks
+          </Link>
+          <Link
+            to={`/todos/edit/${id}`}
+            className="flex items-center gap-2 rounded-sm bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 active:bg-gray-900 cursor-pointer"
+          >
+            <FiEdit size={16} />
+            Edit Task
+          </Link>
+        </div>
       </div>
 
       {/* Details Card */}

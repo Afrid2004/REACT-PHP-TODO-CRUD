@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import TodosCard from "../../components/TodosCard";
 import { FaPlus } from "react-icons/fa";
+import axios from "axios";
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
@@ -40,7 +40,11 @@ const Todos = () => {
           Create New
         </button>
       </div>
-      <TodosCard loading={loading} todos={todos}></TodosCard>
+      <TodosCard
+        loading={loading}
+        todos={todos}
+        setTodos={setTodos}
+      ></TodosCard>
     </div>
   );
 };
