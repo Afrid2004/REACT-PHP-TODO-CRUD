@@ -4,8 +4,9 @@ import { Link, replace, useNavigate } from "react-router";
 import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
+import TodosCardSkeleton from "./Loadings/TodosCardSkeleton";
 
-const TodosCard = ({ todos, setTodos }) => {
+const TodosCard = ({ todos, setTodos, loading }) => {
   const navigate = useNavigate();
   console.log(todos);
   const handleDetails = (id) => {
@@ -51,6 +52,9 @@ const TodosCard = ({ todos, setTodos }) => {
     });
   };
 
+  if (loading) {
+    return <TodosCardSkeleton></TodosCardSkeleton>;
+  }
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
       {todos?.map((todo) => {

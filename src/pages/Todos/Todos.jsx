@@ -10,6 +10,7 @@ const Todos = () => {
 
   const fetchData = async () => {
     setLoading(true);
+    // await new Promise((resolve) => setTimeout(resolve, 5000)); testng loading
     try {
       const res = await axios.get(`${todosApi}/todos/`);
       setTodos(res.data.data);

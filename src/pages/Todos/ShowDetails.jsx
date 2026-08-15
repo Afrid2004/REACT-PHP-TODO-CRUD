@@ -3,14 +3,16 @@ import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaCalendarAlt, FaClock, FaPlus } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { Link, useParams } from "react-router";
+import TodosDetailsSkeleton from "../../components/Loadings/TodosDetailsSkeleton";
 
 const ShowDetails = () => {
   const { id } = useParams();
-
+  const [loading, setLoading] = useState(true);
   const [todo, setTodo] = useState(null);
   const [error, setError] = useState("");
 
   const fetchTodo = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_PHP_API}/todos/find/?id=${id}`,
@@ -24,12 +26,18 @@ const ShowDetails = () => {
       }
     } catch (error) {
       setError(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchTodo();
   }, [id]);
+
+  if (loading) {
+    return <TodosDetailsSkeleton></TodosDetailsSkeleton>;
+  }
 
   if (error) {
     return (
@@ -42,7 +50,7 @@ const ShowDetails = () => {
   if (!todo) {
     return (
       <div className="rounded-xl border border-gray-200 bg-white p-8 text-center text-gray-500">
-        Loading task...
+        Todo not found
       </div>
     );
   }

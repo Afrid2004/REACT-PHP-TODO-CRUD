@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import Spin from "../../components/Loadings/Spin";
 
 const CreateTodo = () => {
   const [loading, setLoading] = useState(false);
@@ -235,9 +236,10 @@ const CreateTodo = () => {
 
             <button
               type="submit"
-              className="rounded-sm cursor-pointer bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+              className="flex items-center gap-2 rounded-sm cursor-pointer bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
             >
-              Create Task
+              {loading && <Spin></Spin>}
+              {loading ? "Creating..." : "Create Task"}
             </button>
           </div>
         </form>

@@ -8,6 +8,7 @@ const Sidebar = () => {
     <>
       <NavLink
         to={"/"}
+        end
         className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
       >
         <div className="flex items-center gap-2">
@@ -16,6 +17,7 @@ const Sidebar = () => {
       </NavLink>
       <NavLink
         to={"/todos"}
+        end
         className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
       >
         <div className="flex items-center gap-2">
@@ -24,6 +26,7 @@ const Sidebar = () => {
       </NavLink>
       <NavLink
         to={"/todos/create"}
+        end
         className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
       >
         <div className="flex items-center gap-2">
@@ -33,6 +36,7 @@ const Sidebar = () => {
       </NavLink>
       <NavLink
         to={"/settings"}
+        end
         className="[&.active]:border-l-4 [&.active]:border-l-black px-4 py-2 bg-black/7 hover:bg-black/10 border border-gray-200 duration-75"
       >
         <div className="flex items-center gap-2">

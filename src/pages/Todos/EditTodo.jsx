@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
+import Spin from "../../components/Loadings/Spin";
 
 const EditTodo = () => {
   const { id } = useParams();
@@ -268,9 +269,10 @@ const EditTodo = () => {
 
             <button
               type="submit"
-              className="rounded-sm cursor-pointer bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+              className="flex items-center gap-2 rounded-sm cursor-pointer bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
             >
-              Update Task
+              {loading && <Spin></Spin>}
+              {loading ? "Updating..." : "Update Task"}
             </button>
           </div>
         </form>
