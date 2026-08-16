@@ -79,7 +79,7 @@ const Sidebar = () => {
       <aside>
         <div>
           <div className="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-gray-200 mb-10">
-            <Link to="/dashboard" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-black text-sm font-bold text-white">
                 T
               </div>
