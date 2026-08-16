@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import TodosCard from "../../components/TodosCard";
 import { FaPlus } from "react-icons/fa";
 import axios from "axios";
+import { Link } from "react-router";
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
@@ -33,13 +34,13 @@ const Todos = () => {
             Manage and track your tasks.
           </p>
         </div>
-        <button
-          type="button"
+        <Link
+          to={"/todos/create"}
           className="flex items-center gap-2 rounded-sm bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 active:bg-gray-900 cursor-pointer"
         >
           <FaPlus className="text-xs" />
           Create New
-        </button>
+        </Link>
       </div>
       <TodosCard
         loading={loading}
