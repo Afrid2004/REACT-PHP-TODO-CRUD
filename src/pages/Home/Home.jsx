@@ -82,8 +82,6 @@ const Home = () => {
         <div>
           <h1 className="text-2xl font-semibold text-gray-800">Dashboard</h1>
 
-          <h2>CI/CD pipeline added</h2>
-
           <p className="mt-1 text-sm text-gray-500">
             Here's an overview of your tasks.
           </p>
